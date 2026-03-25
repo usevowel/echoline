@@ -11,7 +11,7 @@ from echoline.executors.silero_vad_v5 import MODEL_ID, SileroVADModelManager, Va
 from echoline.schemas.vad_stream import VADStreamOptions
 
 if TYPE_CHECKING:
-        from echoline.schemas.vad_stream import VADStreamEvent
+    from echoline.schemas.vad_stream import VADStreamEvent
 
 logger = logging.getLogger(__name__)
 
@@ -97,7 +97,7 @@ class VADStreamManager:
         audio_bytes: bytes,
         timestamp_ms: int,
     ) -> VADStreamEvent | None:
-    from echoline.schemas.vad_stream import VADStreamEvent
+        from echoline.schemas.vad_stream import VADStreamEvent
 
         with self._lock:
             session = self._sessions.get(session_id)
