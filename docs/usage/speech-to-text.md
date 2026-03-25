@@ -12,16 +12,16 @@ TODO: add a note about vad
 ## Download a STT model
 
 ```bash
-export SPEACHES_BASE_URL="http://localhost:8000"
+export ECHOLINE_BASE_URL="http://localhost:8000"
 
 # Listing all available STT models
-uvx speaches-cli registry ls --task automatic-speech-recognition | jq '.data | [].id'
+uvx echoline-cli registry ls --task automatic-speech-recognition | jq '.data | [].id'
 
 # Downloading a Systran/faster-distil-whisper-small.en model
-uvx speaches-cli model download Systran/faster-distil-whisper-small.en
+uvx echoline-cli model download Systran/faster-distil-whisper-small.en
 
 # Check that the model has been installed
-uvx speaches-cli model ls --task text-to-speech | jq '.data | map(select(.id == "Systran/faster-distil-whisper-small.en"))'
+uvx echoline-cli model ls --task text-to-speech | jq '.data | map(select(.id == "Systran/faster-distil-whisper-small.en"))'
 ```
 
 ## Usage
@@ -29,10 +29,10 @@ uvx speaches-cli model ls --task text-to-speech | jq '.data | map(select(.id == 
 ### Curl
 
 ```bash
-export SPEACHES_BASE_URL="http://localhost:8000"
+export ECHOLINE_BASE_URL="http://localhost:8000"
 export TRANSCRIPTION_MODEL_ID="Systran/faster-distil-whisper-small.en"
 
-curl -s "$SPEACHES_BASE_URL/v1/audio/transcriptions" -F "file=@audio.wav" -F "model=$TRANSCRIPTION_MODEL_ID"
+curl -s "$ECHOLINE_BASE_URL/v1/audio/transcriptions" -F "file=@audio.wav" -F "model=$TRANSCRIPTION_MODEL_ID"
 ```
 
 ### Python

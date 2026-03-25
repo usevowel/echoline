@@ -9,16 +9,16 @@ Speech embedding extraction allows you to extract high-dimensional vector repres
 ## Download a Speech Embedding Model
 
 ```bash
-export SPEACHES_BASE_URL="http://localhost:8000"
+export ECHOLINE_BASE_URL="http://localhost:8000"
 
 # Listing all available speech embedding models
-uvx speaches-cli registry ls --task speaker-embedding | jq '.data | [].id'
+uvx echoline-cli registry ls --task speaker-embedding | jq '.data | [].id'
 
 # Downloading a model
-uvx speaches-cli model download Wespeaker/wespeaker-voxceleb-resnet34-LM
+uvx echoline-cli model download Wespeaker/wespeaker-voxceleb-resnet34-LM
 
 # Check that the model has been installed
-uvx speaches-cli model ls --task speaker-embedding | jq '.data | map(select(.id == "Wespeaker/wespeaker-voxceleb-resnet34-LM"))'
+uvx echoline-cli model ls --task speaker-embedding | jq '.data | map(select(.id == "Wespeaker/wespeaker-voxceleb-resnet34-LM"))'
 ```
 
 ## Usage
@@ -26,10 +26,10 @@ uvx speaches-cli model ls --task speaker-embedding | jq '.data | map(select(.id 
 ### Curl
 
 ```bash
-export SPEACHES_BASE_URL="http://localhost:8000"
+export ECHOLINE_BASE_URL="http://localhost:8000"
 export EMBEDDING_MODEL_ID="Wespeaker/wespeaker-voxceleb-resnet34-LM"
 
-curl -s "$SPEACHES_BASE_URL/v1/audio/speech/embedding" \
+curl -s "$ECHOLINE_BASE_URL/v1/audio/speech/embedding" \
   -F "file=@audio.wav" \
   -F "model=$EMBEDDING_MODEL_ID"
 ```

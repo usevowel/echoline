@@ -1,12 +1,14 @@
-# Speaches
+# Echoline
 
-`speaches` is an OpenAI API-compatible server supporting streaming transcription, translation, and speech generation. Speach-to-Text is powered by [faster-whisper](https://github.com/SYSTRAN/faster-whisper) and for Text-to-Speech [piper](https://github.com/rhasspy/piper) and [Kokoro](https://huggingface.co/hexgrad/Kokoro-82M) are used. This project aims to be Ollama, but for TTS/STT models.
+> **Echoline is a continuation of [speaches](https://github.com/speaches-ai/speaches) sponsored by [Vowel](https://vowel.com).**
 
-See the documentation for installation instructions and usage: [speaches.ai](https://speaches.ai/)
+`echoline` is an OpenAI API-compatible server supporting streaming transcription, translation, and speech generation. Speach-to-Text is powered by [faster-whisper](https://github.com/SYSTRAN/faster-whisper) and for Text-to-Speech [piper](https://github.com/rhasspy/piper) and [Kokoro](https://huggingface.co/hexgrad/Kokoro-82M) are used. This project aims to be Ollama, but for TTS/STT models.
+
+See the documentation for installation instructions and usage: [echoline.vowel.to](https://echoline.vowel.to/)
 
 ## Features:
 
-- OpenAI API compatible. All tools and SDKs that work with OpenAI's API should work with `speaches`.
+- OpenAI API compatible. All tools and SDKs that work with OpenAI's API should work with `echoline`.
 - Audio generation (chat completions endpoint) | [OpenAI Documentation](https://platform.openai.com/docs/guides/realtime)
   - Generate a spoken audio summary of a body of text (text in, audio out)
   - Perform sentiment analysis on a recording (audio in, text out)
@@ -15,9 +17,9 @@ See the documentation for installation instructions and usage: [speaches.ai](htt
 - Dynamic model loading / offloading. Just specify which model you want to use in the request and it will be loaded automatically. It will then be unloaded after a period of inactivity.
 - Text-to-Speech via `kokoro`(Ranked #1 in the [TTS Arena](https://huggingface.co/spaces/Pendrokar/TTS-Spaces-Arena)) and `piper` models.
 - GPU and CPU support.
-- [Deployable via Docker Compose / Docker](https://speaches.ai/installation/)
-- [Realtime API](https://speaches.ai/usage/realtime-api)
-- [Highly configurable](https://speaches.ai/configuration/)
+- [Deployable via Docker Compose / Docker](https://echoline.vowel.to/installation/)
+- [Realtime API](https://echoline.vowel.to/usage/realtime-api)
+- [Highly configurable](https://echoline.vowel.to/configuration/)
 
 Please create an issue if you find a bug, have a question, or a feature suggestion.
 

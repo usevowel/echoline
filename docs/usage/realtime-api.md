@@ -81,7 +81,7 @@ When using `intent=conversation` (default), Speaches follows the OpenAI Realtime
 
 ```javascript
 // Standard OpenAI-compatible usage
-const ws = new WebSocket("wss://your-speaches-server/v1/realtime?model=gpt-4o-realtime-preview", {
+const ws = new WebSocket("wss://your-echoline-server/v1/realtime?model=gpt-4o-realtime-preview", {
   headers: {
     'Authorization': 'Bearer your-api-key'
     // Note: OpenAI also requires 'OpenAI-Beta': 'realtime=v1' header
@@ -112,12 +112,12 @@ ws.send(JSON.stringify({
 When models are not explicitly specified, Speaches uses these defaults:
 
 - **Transcription model**: `Systran/faster-distil-whisper-small.en`
-- **Speech synthesis model**: `speaches-ai/Kokoro-82M-v1.0-ONNX` 
+- **Speech synthesis model**: `echoline-ai/Kokoro-82M-v1.0-ONNX` 
 - **Voice**: `af_heart`
 
 **Note**: Default models must be available/downloaded, or session will fail. For transcription-only mode without specifying a model, ensure the default transcription model is installed.
 
-### Speaches Extensions
+### Echoline Extensions
 
 #### Transcription-Only Mode
 
@@ -126,11 +126,11 @@ For transcription-only scenarios (common with .NET OpenAI SDK and simple clients
 ```javascript
 // Transcription-only mode (Speaches extension)
 const ws = new WebSocket(
-  "wss://your-speaches-server/v1/realtime?model=deepdml/faster-whisper-large-v3-turbo-ct2&intent=transcription&api_key=your-api-key"
+  "wss://your-echoline-server/v1/realtime?model=deepdml/faster-whisper-large-v3-turbo-ct2&intent=transcription&api_key=your-api-key"
 );
 
 // Or with headers
-const ws = new WebSocket("wss://your-speaches-server/v1/realtime?model=deepdml/faster-whisper-large-v3-turbo-ct2&intent=transcription", {
+const ws = new WebSocket("wss://your-echoline-server/v1/realtime?model=deepdml/faster-whisper-large-v3-turbo-ct2&intent=transcription", {
   headers: {
     'Authorization': 'Bearer your-api-key'
   }
@@ -163,8 +163,8 @@ using OpenAI.Realtime;
 using OpenAI;
 
 var options = new OpenAIClientOptions();
-options.Endpoint = new Uri("http://speaches:8000/v1");
-var apiKey = "sk-233dadawd"; // your optional speaches API key
+options.Endpoint = new Uri("http://echoline:8000/v1");
+var apiKey = "sk-233dadawd"; // your optional echoline API key
 var openAiClient = new OpenAIClient(new System.ClientModel.ApiKeyCredential(apiKey), options);
 var realtimeClient = openAiClient.GetRealtimeClient();
 
@@ -191,7 +191,7 @@ await foreach (RealtimeUpdate update in _session.ReceiveUpdatesAsync(cancellatio
 #### JavaScript - Simple Transcription
 
 ```javascript
-const ws = new WebSocket("wss://speaches-server/v1/realtime?model=your-transcription-model&intent=transcription&api_key=your-api-key");
+const ws = new WebSocket("wss://echoline-server/v1/realtime?model=your-transcription-model&intent=transcription&api_key=your-api-key");
 
 ws.onmessage = (event) => {
     const data = JSON.parse(event.data);
@@ -213,4 +213,4 @@ ws.onmessage = (event) => {
 - Image support
 - Speech-to-speech model support
 - Performance tuning / optimizations
-- [Realtime console](https://github.com/speaches-ai/realtime-console) improvements
+- [Realtime console](https://github.com/echoline-ai/realtime-console) improvements

@@ -1,6 +1,6 @@
 services:
-  speaches:
-    container_name: speaches
+  echoline:
+    container_name: echoline
     build:
       dockerfile: Dockerfile
       context: .
@@ -16,7 +16,7 @@ services:
           path: ./uv.lock
         - action: sync+restart
           path: ./src
-          target: /home/ubuntu/speaches/src
+          target: /home/ubuntu/echoline/src
     env_file:
       - path: .env
         required: false

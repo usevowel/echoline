@@ -4,7 +4,7 @@ tasks:
     cmds:
       - cmd: lsof -ti :8000 | xargs kill -9
         ignore_error: true
-      - uvicorn --factory --host 0.0.0.0 speaches.main:create_app {{.CLI_ARGS}}
+      - uvicorn --factory --host 0.0.0.0 echoline.main:create_app {{.CLI_ARGS}}
     sources:
       - src/**/*.py
   test:

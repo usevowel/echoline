@@ -1,12 +1,12 @@
 # include:
 #   - compose.observability.yaml
 services:
-  speaches:
+  echoline:
     extends:
       file: compose.yaml
-      service: speaches
+      service: echoline
     # NOTE: slightly older cuda version is available under 'latest-cuda-12.4.1' and `latest-cuda-12.6.3` tags
-    image: ghcr.io/speaches-ai/speaches:latest-cuda-12.6.3
+    image: ghcr.io/vowel/echoline:latest-cuda-12.6.3
     build:
       args:
         BASE_IMAGE: nvidia/cuda:12.6.3-cudnn-runtime-ubuntu24.04

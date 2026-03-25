@@ -5,16 +5,16 @@
 ## Download a TTS model
 
 ```bash
-export SPEACHES_BASE_URL="http://localhost:8000"
+export ECHOLINE_BASE_URL="http://localhost:8000"
 
 # Listing all available TTS models
-uvx speaches-cli registry ls --task text-to-speech | jq '.data | [].id'
+uvx echoline-cli registry ls --task text-to-speech | jq '.data | [].id'
 
 # Downloading a TTS model
-uvx speaches-cli model download speaches-ai/Kokoro-82M-v1.0-ONNX
+uvx echoline-cli model download speaches-ai/Kokoro-82M-v1.0-ONNX
 
 # Check that the model has been installed
-uvx speaches-cli model ls --task text-to-speech | jq '.data | map(select(.id == "speaches-ai/Kokoro-82M-v1.0-ONNX"))'
+uvx echoline-cli model ls --task text-to-speech | jq '.data | map(select(.id == "speaches-ai/Kokoro-82M-v1.0-ONNX"))'
 ```
 
 ## Usage
@@ -22,7 +22,7 @@ uvx speaches-cli model ls --task text-to-speech | jq '.data | map(select(.id == 
 ### Curl
 
 ```bash
-export SPEACHES_BASE_URL="http://localhost:8000"
+export ECHOLINE_BASE_URL="http://localhost:8000"
 export SPEECH_MODEL_ID="speaches-ai/Kokoro-82M-v1.0-ONNX"
 
 # List available voices
@@ -31,7 +31,7 @@ export SPEECH_MODEL_ID="speaches-ai/Kokoro-82M-v1.0-ONNX"
 export VOICE_ID="af_heart"
 
 # Generate speech
-curl "$SPEACHES_BASE_URL/v1/audio/speech" -s -H "Content-Type: application/json" \
+curl "$ECHOLINE_BASE_URL/v1/audio/speech" -s -H "Content-Type: application/json" \
   --output audio.mp3 \
   --data @- << EOF
 {
@@ -41,7 +41,7 @@ curl "$SPEACHES_BASE_URL/v1/audio/speech" -s -H "Content-Type: application/json"
 }
 EOF
 
-curl "$SPEACHES_BASE_URL/v1/audio/speech" -s -H "Content-Type: application/json" \
+curl "$ECHOLINE_BASE_URL/v1/audio/speech" -s -H "Content-Type: application/json" \
   --output audio.wav \
   --data @- << EOF
 {
@@ -52,7 +52,7 @@ curl "$SPEACHES_BASE_URL/v1/audio/speech" -s -H "Content-Type: application/json"
 }
 EOF
 
-curl "$SPEACHES_BASE_URL/v1/audio/speech" -s -H "Content-Type: application/json" \
+curl "$ECHOLINE_BASE_URL/v1/audio/speech" -s -H "Content-Type: application/json" \
   --output audio.mp3 \
   --data @- << EOF
 {

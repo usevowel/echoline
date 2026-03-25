@@ -4,7 +4,7 @@
 
     Also checkout [customizing HuggingFace behaviour](https://huggingface.co/docs/huggingface_hub/package_reference/environment_variables#environment-variables)
 
-::: speaches.config.Config
+::: echoline.config.Config
     options:
         show_bases: true
         show_if_no_docstring: true
@@ -18,7 +18,7 @@
         filters:
             - "!model_config"
 
-::: speaches.config.WhisperConfig
+::: echoline.config.WhisperConfig
 
 <!-- TODO: nested model `whisper`  -->
 <!-- TODO: Insert new lines for multi-line docstrings  -->

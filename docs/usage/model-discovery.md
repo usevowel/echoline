@@ -1,19 +1,19 @@
-Before you can do anything useful with `speaches`, you'll need to want to download a machine learning model for your specific task. You can see all the supported models by querying the `/v1/registry` endpoint. This will return a list of all available models, including their IDs, types, and other metadata.
+Before you can do anything useful with `echoline`, you'll need to want to download a machine learning model for your specific task. You can see all the supported models by querying the `/v1/registry` endpoint. This will return a list of all available models, including their IDs, types, and other metadata.
 
 !!! note
 
-    You'll want to make sure you have the `SPEACHES_BASE_URL` environment variable set to the URL of your `speaches` server. If you're running it locally, without modifying the default port, this will be `http://localhost:8000`.
+    You'll want to make sure you have the `ECHOLINE_BASE_URL` environment variable set to the URL of your `echoline` server. If you're running it locally, without modifying the default port, this will be `http://localhost:8000`.
 
 === "Speaches CLI"
 
     ```bash
-    uvx speaches-cli registry ls
+    uvx echoline-cli registry ls
     ```
 
 === "cURL"
 
     ```bash
-    curl "$SPEACHES_BASE_URL/v1/registry"
+    curl "$ECHOLINE_BASE_URL/v1/registry"
     ```
 
 The above command will display a list of all available models. You can filter the models by task type, such as `automatic-speech-recognition`, `text-to-speech`, etc. To do this, you'll need to specify the `task` query parameter.
@@ -21,13 +21,13 @@ The above command will display a list of all available models. You can filter th
 === "Speaches CLI"
 
     ```bash
-    uvx speaches-cli registry ls --task automatic-speech-recognition
+    uvx echoline-cli registry ls --task automatic-speech-recognition
     ```
 
 === "cURL"
 
     ```bash
-    curl "$SPEACHES_BASE_URL/v1/registry?task=automatic-speech-recognition"
+    curl "$ECHOLINE_BASE_URL/v1/registry?task=automatic-speech-recognition"
     ```
 
 TIP: You may further filter the response by piping the output to `jq` and using the `select` function.
@@ -37,13 +37,13 @@ You'll then want to download the model you want to use. You can do this by makin
 === "Speaches CLI"
 
     ```bash
-    uvx speaches-cli model download Systran/faster-distil-whisper-small.en
+    uvx echoline-cli model download Systran/faster-distil-whisper-small.en
     ```
 
 === "cURL"
 
     ```bash
-    curl "$SPEACHES_BASE_URL/v1/models/Systran/faster-distil-whisper-small.en" -X POST
+    curl "$ECHOLINE_BASE_URL/v1/models/Systran/faster-distil-whisper-small.en" -X POST
     ```
 
 The downloaded model will now be included in the list of available models when you query the `/v1/models` endpoint (OpenAI compatible).
@@ -51,25 +51,25 @@ The downloaded model will now be included in the list of available models when y
 === "Speaches CLI"
 
     ```bash
-    uvx speaches-cli model ls
+    uvx echoline-cli model ls
     ```
 
 === "cURL"
 
     ```bash
-    curl "$SPEACHES_BASE_URL/v1/models"
+    curl "$ECHOLINE_BASE_URL/v1/models"
     ```
 
 ## Model Aliasing
 
-`speaches` supports model aliasing, which allows you to use friendly names for models instead of their full repository paths. This is particularly useful for maintaining compatibility with OpenAI's API naming conventions.
+`echoline` supports model aliasing, which allows you to use friendly names for models instead of their full repository paths. This is particularly useful for maintaining compatibility with OpenAI's API naming conventions.
 
-Model aliases are defined in the `model_aliases.json` file in the root directory of your `speaches` installation. The file contains a JSON object mapping alias names to actual model IDs:
+Model aliases are defined in the `model_aliases.json` file in the root directory of your `echoline` installation. The file contains a JSON object mapping alias names to actual model IDs:
 
 ```json
 {
-  "tts-1": "speaches-ai/Kokoro-82M-v1.0-ONNX",
-  "tts-1-hd": "speaches-ai/Kokoro-82M-v1.0-ONNX",
+  "tts-1": "echoline-ai/Kokoro-82M-v1.0-ONNX",
+  "tts-1-hd": "echoline-ai/Kokoro-82M-v1.0-ONNX",
   "whisper-1": "Systran/faster-whisper-large-v3"
 }
 ```
@@ -82,27 +82,27 @@ Once configured, you can use the alias name anywhere you would normally use a fu
 
     ```bash
     # Use alias instead of full model path
-    uvx speaches-cli model download whisper-1
+    uvx echoline-cli model download whisper-1
 
     # This is equivalent to:
-    uvx speaches-cli model download Systran/faster-whisper-large-v3
+    uvx echoline-cli model download Systran/faster-whisper-large-v3
     ```
 
 === "cURL"
 
     ```bash
     # Use alias in API requests
-    curl "$SPEACHES_BASE_URL/v1/models/whisper-1" -X POST
+    curl "$ECHOLINE_BASE_URL/v1/models/whisper-1" -X POST
 
     # This is equivalent to:
-    curl "$SPEACHES_BASE_URL/v1/models/Systran/faster-whisper-large-v3" -X POST
+    curl "$ECHOLINE_BASE_URL/v1/models/Systran/faster-whisper-large-v3" -X POST
     ```
 
 ### Configuring Model Aliases
 
 To add or modify model aliases:
 
-1. **Edit the `model_aliases.json` file** in your `speaches` root directory
+1. **Edit the `model_aliases.json` file** in your `echoline` root directory
 2. **Add or modify entries** using the format `"alias_name": "actual_model_id"`
 3. **Restart the server** for changes to take effect
 
@@ -111,7 +111,7 @@ To add or modify model aliases:
 ```json
 {
   "my-whisper": "openai/whisper-large-v3",
-  "fast-tts": "speaches-ai/Kokoro-82M-v1.0-ONNX"
+  "fast-tts": "echoline-ai/Kokoro-82M-v1.0-ONNX"
 }
 ```
 
@@ -125,16 +125,16 @@ If you're using a Docker deployment, you'll need to bind mount your local `model
 
 ```bash
 # Mount your local model_aliases.json file
-docker run -v /path/to/your/model_aliases.json:/home/ubuntu/speaches/model_aliases.json speaches
+docker run -v /path/to/your/model_aliases.json:/home/ubuntu/echoline/model_aliases.json echoline
 ```
 
 Or in your `compose.yaml`:
 
 ```yaml
 services:
-  speaches:
+  echoline:
     volumes:
-      - ./model_aliases.json:/home/ubuntu/speaches/model_aliases.json
+      - ./model_aliases.json:/home/ubuntu/echoline/model_aliases.json
 ```
 
 ## FAQ
@@ -145,11 +145,11 @@ services:
 
 ???+ question "Can I download the models directly using the `huggingface-cli` command?"
 
-    Theoretically, you could in some cases, but it's not recommended. The `speaches` server manages the models and their versions. If you download the models directly, you may run into issues with model compatibility or versioning. It's best to use the `speaches` CLI or API to download and manage the models.
+    Theoretically, you could in some cases, but it's not recommended. The `echoline` server manages the models and their versions. If you download the models directly, you may run into issues with model compatibility or versioning. It's best to use the `echoline` CLI or API to download and manage the models.
 
 ???+ question "How can I add a new model to the registry?"
 
-    Model discovery works by querying the Hugging Face Hub with specific tags. If you want to add a new model to the registry, you can do so by adding the appropriate tags to your model on Hugging Face and ensuring your Hugging Face repository follows the expected structrure (you'll need to take a look at `src/speaches/executors` to find out what the expected tags and repository structrure is). The server will automatically pick up the new model when it queries the registry.
+    Model discovery works by querying the Hugging Face Hub with specific tags. If you want to add a new model to the registry, you can do so by adding the appropriate tags to your model on Hugging Face and ensuring your Hugging Face repository follows the expected structrure (you'll need to take a look at `src/echoline/executors` to find out what the expected tags and repository structrure is). The server will automatically pick up the new model when it queries the registry.
 
 ???+ question "Can I use private models from Hugging Face?"
 

@@ -6,7 +6,7 @@
         "type": "python",
         "request": "launch",
         "module": "uvicorn",
-        "args": ["speaches.main:create_app", "--factory", "--host", "0.0.0.0", "--reload"]
+        "args": ["echoline.main:create_app", "--factory", "--host", "0.0.0.0", "--reload"]
     }
   ]
 }

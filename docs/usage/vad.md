@@ -11,16 +11,16 @@ Refer to the [../api.md] for additional details such as supported request parame
 ## Usage
 
 ```sh
-export SPEACHES_BASE_URL="http://localhost:8000"
+export ECHOLINE_BASE_URL="http://localhost:8000"
 
 
-curl "$SPEACHES_BASE_URL/v1/audio/speech/timestamps" -F "file=@audio.wav"
+curl "$ECHOLINE_BASE_URL/v1/audio/speech/timestamps" -F "file=@audio.wav"
 # [{"start":64,"end":1323}]
 
 
-curl "$SPEACHES_BASE_URL/v1/audio/speech/timestamps" -F "file=@audio.wav"  -F "max_speech_duration_s=0.2"
+curl "$ECHOLINE_BASE_URL/v1/audio/speech/timestamps" -F "file=@audio.wav"  -F "max_speech_duration_s=0.2"
 # [{"start":64,"end":256},{"start":288,"end":480},{"start":512,"end":704},{"start":800,"end":992},{"start":1024,"end":1216}]
 
-curl "$SPEACHES_BASE_URL/v1/audio/speech/timestamps" -F "file=@audio.wav"  -F "max_speech_duration_s=0.2" -F "threshold=0.99"
+curl "$ECHOLINE_BASE_URL/v1/audio/speech/timestamps" -F "file=@audio.wav"  -F "max_speech_duration_s=0.2" -F "threshold=0.99"
 # [{"start":96,"end":288},{"start":320,"end":512},{"start":544,"end":736},{"start":832,"end":1024},{"start":1056,"end":1248}]
 ```

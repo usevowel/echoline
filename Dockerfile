@@ -1,7 +1,7 @@
 ARG BASE_IMAGE=nvidia/cuda:12.9.1-cudnn-runtime-ubuntu24.04
 # hadolint ignore=DL3006
 FROM ${BASE_IMAGE}
-LABEL org.opencontainers.image.source="https://github.com/speaches-ai/speaches"
+LABEL org.opencontainers.image.source="https://github.com/vowel/echoline"
 LABEL org.opencontainers.image.licenses="MIT"
 # `ffmpeg` is installed because without it `gradio` won't work with mp3(possible others as well) files
 # hadolint ignore=DL3008
@@ -17,7 +17,7 @@ RUN useradd --create-home --shell /bin/bash --uid 1000 ubuntu || true
 USER ubuntu
 ENV HOME=/home/ubuntu \
     PATH=/home/ubuntu/.local/bin:$PATH
-WORKDIR $HOME/speaches
+WORKDIR $HOME/echoline
 # https://docs.astral.sh/uv/guides/integration/docker/#installing-uv
 COPY --chown=ubuntu --from=ghcr.io/astral-sh/uv:0.8.22 /uv /bin/uv
 # NOTE: per https://docs.astral.sh/uv/guides/install-python, `uv` will automatically install the necessary python version
@@ -37,7 +37,7 @@ RUN --mount=type=cache,target=/root/.cache/uv \
 RUN mkdir -p $HOME/.cache/huggingface/hub
 ENV UVICORN_HOST=0.0.0.0
 ENV UVICORN_PORT=8000
-ENV PATH="$HOME/speaches/.venv/bin:$PATH"
+ENV PATH="$HOME/echoline/.venv/bin:$PATH"
 # https://huggingface.co/docs/huggingface_hub/en/package_reference/environment_variables#hfhubenablehftransfer
 # NOTE: I've disabled this because it doesn't inside of Docker container. I couldn't pinpoint the exact reason. This doesn't happen when running the server locally.
 # RuntimeError: An error occurred while downloading using `hf_transfer`. Consider disabling HF_HUB_ENABLE_HF_TRANSFER for better error handling.
@@ -49,4 +49,4 @@ ENV GRADIO_ANALYTICS_ENABLED="False"
 ENV DISABLE_TELEMETRY=1
 ENV HF_HUB_DISABLE_TELEMETRY=1
 EXPOSE 8000
-CMD ["uvicorn", "--factory", "speaches.main:create_app"]
+CMD ["uvicorn", "--factory", "echoline.main:create_app"]

@@ -4,10 +4,10 @@
 
 ## Prerequisites
 
-Start `speaches` with the following environmental variables:
+Start `echoline` with the following environmental variables:
 
-- `CHAT_COMPLETION_BASE_URL` to the base URL of an OpenAI API compatible endpoint | [Config](../configuration.md#speaches.config.Config.chat_completion_base_url)
-- `CHAT_COMPLETION_API_KEY` if the API you are using requires authentication | [Config](../configuration.md#speaches.config.Config.chat_completion_api_key)
+- `CHAT_COMPLETION_BASE_URL` to the base URL of an OpenAI API compatible endpoint | [Config](../configuration.md#echoline.config.Config.chat_completion_base_url)
+- `CHAT_COMPLETION_API_KEY` if the API you are using requires authentication | [Config](../configuration.md#echoline.config.Config.chat_completion_api_key)
 
 Ollama example:
 
@@ -26,7 +26,7 @@ Download a TTS model and a STT model. See [Text-to-Speech](./text-to-speech.md) 
 
 ## How does it work?
 
-`speaches` acts as a proxy between the client and the OpenAI compatible API. It receives the user's input audio message, transcribes it, and replaces the input audio with a transcription that a regular LLM can understand. The request is then proxied to the provided endpoint, the response is transcribed back to audio, and returned to the client. Below is the flow of the process for non-streaming text + audio in → text + audio out:
+`echoline` acts as a proxy between the client and the OpenAI compatible API. It receives the user's input audio message, transcribes it, and replaces the input audio with a transcription that a regular LLM can understand. The request is then proxied to the provided endpoint, the response is transcribed back to audio, and returned to the client. Below is the flow of the process for non-streaming text + audio in → text + audio out:
 
 - Receive the `messages` containing audio inputs
 
