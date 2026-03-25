@@ -56,6 +56,9 @@ from speaches.routers.stt import (
 from speaches.routers.vad import (
     router as vad_router,
 )
+from speaches.routers.vad_stream_ws import (
+    router as vad_stream_ws_router,
+)
 from speaches.utils import APIProxyError
 
 if TYPE_CHECKING:
@@ -67,6 +70,7 @@ TAGS_METADATA = [
     {"name": "automatic-speech-recognition"},
     {"name": "speech-to-text"},
     {"name": "speaker-embedding"},
+    {"name": "voice-activity-detection"},
     {"name": "realtime"},
     {"name": "models"},
     {"name": "diagnostic"},
@@ -172,8 +176,9 @@ def create_app() -> FastAPI:
     app.include_router(vad_router, dependencies=http_dependencies)
     app.include_router(diarization_router, dependencies=http_dependencies)
 
-    # WebSocket router WITHOUT authentication (handles its own)
+    # WebSocket routers WITHOUT authentication (handle their own)
     app.include_router(realtime_ws_router)
+    app.include_router(vad_stream_ws_router)
 
     # HACK: move this elsewhere
     app.get("/v1/realtime", include_in_schema=False)(lambda: RedirectResponse(url="/v1/realtime/"))

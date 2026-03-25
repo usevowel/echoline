@@ -17,6 +17,7 @@ See the documentation for installation instructions and usage: [speaches.ai](htt
 - GPU and CPU support.
 - [Deployable via Docker Compose / Docker](https://speaches.ai/installation/)
 - [Realtime API](https://speaches.ai/usage/realtime-api)
+- [Voice Activity Detection](https://speaches.ai/usage/vad/) (batch and streaming)
 - [Highly configurable](https://speaches.ai/configuration/)
 
 Please create an issue if you find a bug, have a question, or a feature suggestion.
