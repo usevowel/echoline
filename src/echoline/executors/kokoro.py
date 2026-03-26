@@ -3,9 +3,12 @@ import logging
 from pathlib import Path
 import time
 from typing import Literal
+from urllib.request import urlretrieve
 
 import huggingface_hub
+from huggingface_hub.constants import HF_HUB_CACHE
 from kokoro_onnx import Kokoro
+import numpy as np
 from onnxruntime import InferenceSession
 from pydantic import BaseModel, computed_field
 
@@ -33,7 +36,9 @@ from echoline.utils import async_to_sync_generator
 SAMPLE_RATE = 24000  # the default sample rate for Kokoro
 LIBRARY_NAME = "onnx"
 TASK_NAME_TAG = "text-to-speech"
-TAGS = {"echoline", "kokoro"}
+KOKORO_VOICES_FILE_URL = (
+    "https://github.com/thewh1teagle/kokoro-onnx/releases/download/model-files-v1.0/voices-v1.0.bin"
+)
 
 
 class KokoroModelFiles(BaseModel):
@@ -125,13 +130,39 @@ class KokoroModel(Model):
 
 
 hf_model_filter = HfModelFilter(
-    library_name=LIBRARY_NAME,
     task=TASK_NAME_TAG,
-    tags=TAGS,
+    model_name="kokoro",
 )
 
 
 logger = logging.getLogger(__name__)
+
+
+ORT_TENSOR_TYPE_TO_NUMPY_DTYPE: dict[str, type[np.generic]] = {
+    "tensor(float)": np.float32,
+    "tensor(double)": np.float64,
+    "tensor(int32)": np.int32,
+    "tensor(int64)": np.int64,
+}
+
+
+def get_numpy_dtype_for_ort_tensor(ort_tensor_type: str) -> type[np.generic]:
+    try:
+        return ORT_TENSOR_TYPE_TO_NUMPY_DTYPE[ort_tensor_type]
+    except KeyError as exc:
+        msg = f"Unsupported ONNX Runtime tensor type: {ort_tensor_type}"
+        raise ValueError(msg) from exc
+
+
+def download_compatible_voices_file() -> Path:
+    voices_path = Path(HF_HUB_CACHE) / "kokoro-onnx" / "voices-v1.0.bin"
+    if voices_path.exists():
+        return voices_path
+
+    voices_path.parent.mkdir(parents=True, exist_ok=True)
+    logger.info(f"Downloading Kokoro aggregate voices file to {voices_path}")
+    urlretrieve(KOKORO_VOICES_FILE_URL, voices_path)
+    return voices_path
 
 
 class KokoroModelRegistry(ModelRegistry):
@@ -169,8 +200,20 @@ class KokoroModelRegistry(ModelRegistry):
     def get_model_files(self, model_id: str) -> KokoroModelFiles:
         model_files = list(list_model_files(model_id))
 
-        model_file_path = next(file_path for file_path in model_files if file_path.name == "model.onnx")
-        voices_file_path = next(file_path for file_path in model_files if file_path.name == "voices.bin")
+        model_file_path = next((file_path for file_path in model_files if file_path.name == "model.onnx"), None)
+        if model_file_path is None:
+            model_file_path = next(
+                (file_path for file_path in model_files if file_path.parts[-2:] == ("onnx", "model.onnx")), None
+            )
+
+        voices_file_path = next((file_path for file_path in model_files if file_path.name == "voices.bin"), None)
+        if voices_file_path is None:
+            voices_file_path = next((file_path for file_path in model_files if file_path.name == "voices-v1.0.bin"), None)
+        if voices_file_path is None:
+            voices_file_path = download_compatible_voices_file()
+
+        if model_file_path is None or voices_file_path is None:
+            raise ValueError(f"Required files not found for model {model_id}. Found: {[f.name for f in model_files]}")
 
         return KokoroModelFiles(
             model=model_file_path,
@@ -178,12 +221,52 @@ class KokoroModelRegistry(ModelRegistry):
         )
 
     def download_model_files(self, model_id: str) -> None:
-        _model_repo_path_str = huggingface_hub.snapshot_download(
-            repo_id=model_id, repo_type="model", allow_patterns=["model.onnx", "voices.bin", "README.md"]
+        huggingface_hub.snapshot_download(
+            repo_id=model_id,
+            repo_type="model",
+            allow_patterns=[
+                "model.onnx",
+                "voices.bin",
+                "voices-v1.0.bin",
+                "onnx/model.onnx",
+                "README.md",
+            ],
         )
+        model_files = list(list_model_files(model_id))
+        if not any(file_path.name in {"voices.bin", "voices-v1.0.bin"} for file_path in model_files):
+            download_compatible_voices_file()
 
 
 kokoro_model_registry = KokoroModelRegistry(hf_model_filter=hf_model_filter)
+
+
+class CompatibleKokoro(Kokoro):
+    def _create_audio(self, phonemes: str, voice: np.ndarray, speed: float) -> tuple[np.ndarray, int]:
+        logger.debug(f"Phonemes: {phonemes}")
+        if len(phonemes) > 510:
+            logger.warning("Phonemes are too long, truncating to 510 phonemes")
+        phonemes = phonemes[:510]
+        start_t = time.time()
+        tokens = np.array(self.tokenizer.tokenize(phonemes), dtype=np.int64)
+
+        assert len(tokens) <= 510, "Context length is 510, including pad tokens"
+
+        voice = voice[len(tokens)]
+        input_types = {input_info.name: input_info.type for input_info in self.sess.get_inputs()}
+        token_input_name = "input_ids" if "input_ids" in input_types else "tokens"
+        inputs = {
+            token_input_name: np.array([[0, *tokens.tolist(), 0]], dtype=get_numpy_dtype_for_ort_tensor(input_types[token_input_name])),
+            "style": np.asarray(voice, dtype=get_numpy_dtype_for_ort_tensor(input_types["style"])),
+            "speed": np.array([speed], dtype=get_numpy_dtype_for_ort_tensor(input_types["speed"])),
+        }
+        audio = self.sess.run(None, inputs)[0]
+        audio_duration = len(audio) / SAMPLE_RATE
+        create_duration = time.time() - start_t
+        rtf = create_duration / audio_duration
+        logger.debug(
+            f"Created audio in length of {audio_duration:.2f}s for {len(phonemes)} phonemes in {create_duration:.2f}s (RTF: {rtf:.2f}"
+        )
+        return audio, SAMPLE_RATE
 
 
 class KokoroModelManager(BaseModelManager[Kokoro]):
@@ -195,7 +278,7 @@ class KokoroModelManager(BaseModelManager[Kokoro]):
         model_files = kokoro_model_registry.get_model_files(model_id)
         providers = get_ort_providers_with_options(self.ort_opts)
         inf_sess = InferenceSession(model_files.model, providers=providers)
-        return Kokoro.from_session(inf_sess, str(model_files.voices))
+        return CompatibleKokoro.from_session(inf_sess, str(model_files.voices))
 
     @traced_generator()
     def handle_speech_request(
