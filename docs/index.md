@@ -13,7 +13,7 @@
   - Async speech to speech interactions with a model (audio in, audio out)
 - Streaming support (transcription is sent via SSE as the audio is transcribed. You don't need to wait for the audio to fully be transcribed before receiving it).
 - Dynamic model loading / offloading. Just specify which model you want to use in the request and it will be loaded automatically. It will then be unloaded after a period of inactivity.
-- Text-to-Speech via `kokoro`(Ranked #1 in the [TTS Arena](https://huggingface.co/spaces/Pendrokar/TTS-Spaces-Arena)) and `piper` models.
+- Text-to-Speech via `kokoro` and `piper` models.
 - GPU and CPU support.
 - [Deployable via Docker Compose / Docker](https://echoline.vowel.to/installation/)
 - [Realtime API](https://echoline.vowel.to/usage/realtime-api)
