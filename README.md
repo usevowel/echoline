@@ -26,24 +26,6 @@ See the full documentation for detailed instructions: [echoline.vowel.to](https:
 
 Please create an issue if you find a bug, have a question, or a feature suggestion.
 
-## Demos
-
-> **Note:** The demo videos below are the original ones from the original [speaches](https://github.com/speaches-ai/speaches) repository. They demonstrate the core functionality that Echoline has inherited and built upon.
-
-### Realtime API
-
-https://github.com/user-attachments/assets/457a736d-4c29-4b43-984b-05cc4d9995bc
-
-(Excuse the breathing lol. Didn't have enough time to record a better demo)
-
-### Streaming Transcription
-
-TODO
-
-### Speech Generation
-
-https://github.com/user-attachments/assets/0021acd9-f480-4bc3-904d-831f54c4d45b
-
 ## Container Image
 
 Echoline is published as a container image to GitHub Container Registry:
