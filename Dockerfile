@@ -4,9 +4,10 @@ FROM ${BASE_IMAGE}
 LABEL org.opencontainers.image.source="https://github.com/vowel/echoline"
 LABEL org.opencontainers.image.licenses="MIT"
 # `ffmpeg` is installed because without it `gradio` won't work with mp3(possible others as well) files
+# `libportaudio2` is installed for sounddevice audio I/O support
 # hadolint ignore=DL3008
 RUN apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends ca-certificates curl ffmpeg && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends ca-certificates curl ffmpeg libportaudio2 && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 # "ubuntu" is the default user on ubuntu images with UID=1000. This user is used for two reasons:
@@ -19,7 +20,7 @@ ENV HOME=/home/ubuntu \
     PATH=/home/ubuntu/.local/bin:$PATH
 WORKDIR $HOME/echoline
 # https://docs.astral.sh/uv/guides/integration/docker/#installing-uv
-COPY --chown=ubuntu --from=ghcr.io/astral-sh/uv:0.8.22 /uv /bin/uv
+COPY --chown=ubuntu --from=ghcr.io/astral-sh/uv:0.10.0 /uv /bin/uv
 # NOTE: per https://docs.astral.sh/uv/guides/install-python, `uv` will automatically install the necessary python version
 # https://docs.astral.sh/uv/guides/integration/docker/#intermediate-layers
 # https://docs.astral.sh/uv/guides/integration/docker/#compiling-bytecode

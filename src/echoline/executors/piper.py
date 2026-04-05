@@ -38,7 +38,6 @@ PIPER_VOICE_QUALITY_SAMPLE_RATE_MAP: dict[PiperVoiceQuality, int] = {
 
 LIBRARY_NAME = "onnx"
 TASK_NAME_TAG = "text-to-speech"
-TAGS = {"echoline", "piper"}
 
 
 class PiperModelFiles(BaseModel):
@@ -64,7 +63,7 @@ class PiperModel(Model):
 hf_model_filter = HfModelFilter(
     library_name=LIBRARY_NAME,
     task=TASK_NAME_TAG,
-    tags=TAGS,
+    model_name="piper",
 )
 
 

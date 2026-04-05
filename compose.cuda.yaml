@@ -5,11 +5,10 @@ services:
     extends:
       file: compose.yaml
       service: echoline
-    # NOTE: slightly older cuda version is available under 'latest-cuda-12.4.1' and `latest-cuda-12.6.3` tags
-    image: ghcr.io/vowel/echoline:latest-cuda-12.6.3
+    image: echoline-echoline:latest
     build:
       args:
-        BASE_IMAGE: nvidia/cuda:12.6.3-cudnn-runtime-ubuntu24.04
+        BASE_IMAGE: nvidia/cuda:12.9.1-cudnn-runtime-ubuntu24.04
     volumes:
       - hf-hub-cache:/home/ubuntu/.cache/huggingface/hub
     deploy:

@@ -1,3 +1,5 @@
+![Echoline Banner](assets/RepoBanner.png)
+
 # Echoline
 
 > **Echoline is a continuation of [speaches](https://github.com/speaches-ai/speaches) sponsored by [Vowel](https://vowel.com).**

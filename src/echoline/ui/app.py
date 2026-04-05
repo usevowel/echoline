@@ -2,6 +2,7 @@ import gradio as gr
 
 from echoline.config import Config
 from echoline.ui.tabs.audio_chat import create_audio_chat_tab
+from echoline.ui.tabs.realtime_stt import create_realtime_stt_tab
 from echoline.ui.tabs.stt import create_stt_tab
 from echoline.ui.tabs.tts import create_tts_tab
 
@@ -93,5 +94,6 @@ def create_gradio_demo(config: Config) -> gr.Blocks:
         create_audio_chat_tab(config, api_key_input)
         create_stt_tab(config, api_key_input)
         create_tts_tab(config, api_key_input)
+        create_realtime_stt_tab(config, api_key_input)
 
     return demo
