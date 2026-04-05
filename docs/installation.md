@@ -2,6 +2,23 @@
 
     Additional steps are required to use the text-to-speech feature. Please see the [Text-to-Speech](./usage/text-to-speech.md).
 
+## Container Image
+
+Echoline (Vowel Echo Line) is published as a container image to GitHub Container Registry:
+
+**Image:** `ghcr.io/vowel/echoline`
+
+Available tags:
+
+| Tag | Description |
+|-----|-------------|
+| `latest-cuda` | CUDA-enabled image (recommended for GPU inference) |
+| `latest-cpu` | CPU-only image |
+| `latest-cuda-12.6.3` | Specific CUDA 12.6.3 version |
+| `latest-cuda-12.4.1` | Specific CUDA 12.4.1 version |
+| `vX.Y.Z-cuda` | Versioned CUDA releases |
+| `vX.Y.Z-cpu` | Versioned CPU releases |
+
 ## Docker Compose (Recommended)
 
 !!! note
@@ -13,25 +30,25 @@ Download the necessary Docker Compose files
 === "CUDA"
 
     ```bash
-    curl --silent --remote-name https://raw.githubusercontent.com/echoline-ai/echoline/master/compose.yaml
-    curl --silent --remote-name https://raw.githubusercontent.com/echoline-ai/echoline/master/compose.cuda.yaml
+curl --silent --remote-name https://raw.githubusercontent.com/vowel/echoline/master/compose.yaml
+curl --silent --remote-name https://raw.githubusercontent.com/vowel/echoline/master/compose.cuda.yaml
     export COMPOSE_FILE=compose.cuda.yaml
     ```
 
 === "CUDA (with CDI feature enabled)"
 
     ```bash
-    curl --silent --remote-name https://raw.githubusercontent.com/echoline-ai/echoline/master/compose.yaml
-    curl --silent --remote-name https://raw.githubusercontent.com/echoline-ai/echoline/master/compose.cuda.yaml
-    curl --silent --remote-name https://raw.githubusercontent.com/echoline-ai/echoline/master/compose.cuda-cdi.yaml
+curl --silent --remote-name https://raw.githubusercontent.com/vowel/echoline/master/compose.yaml
+curl --silent --remote-name https://raw.githubusercontent.com/vowel/echoline/master/compose.cuda.yaml
+    curl --silent --remote-name https://raw.githubusercontent.com/vowel/echoline/master/compose.cuda-cdi.yaml
     export COMPOSE_FILE=compose.cuda-cdi.yaml
     ```
 
 === "CPU"
 
     ```bash
-    curl --silent --remote-name https://raw.githubusercontent.com/echoline-ai/echoline/master/compose.yaml
-    curl --silent --remote-name https://raw.githubusercontent.com/echoline-ai/echoline/master/compose.cpu.yaml
+    curl --silent --remote-name https://raw.githubusercontent.com/vowel/echoline/master/compose.yaml
+    curl --silent --remote-name https://raw.githubusercontent.com/vowel/echoline/master/compose.cpu.yaml
     export COMPOSE_FILE=compose.cpu.yaml
     ```
 

@@ -123,7 +123,7 @@ def create_app() -> FastAPI:
     # Create main app WITHOUT global authentication
     app = FastAPI(
         title="Echoline",
-        version="0.8.3",  # TODO: update this on release
+        version="0.9.0",
         license_info={"name": "MIT License", "identifier": "MIT"},
         openapi_tags=TAGS_METADATA,
         lifespan=lifespan,

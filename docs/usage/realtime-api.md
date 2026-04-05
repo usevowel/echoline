@@ -213,4 +213,4 @@ ws.onmessage = (event) => {
 - Image support
 - Speech-to-speech model support
 - Performance tuning / optimizations
-- [Realtime console](https://github.com/echoline-ai/realtime-console) improvements
+- [Realtime console](https://github.com/vowel/echoline-realtime-console) improvements
