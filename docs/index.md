@@ -15,10 +15,10 @@
 - Dynamic model loading / offloading. Just specify which model you want to use in the request and it will be loaded automatically. It will then be unloaded after a period of inactivity.
 - Text-to-Speech via `kokoro` and `piper` models.
 - GPU and CPU support.
-- [Deployable via Docker Compose / Docker](https://echoline.vowel.to/installation/)
-- [Realtime API](https://echoline.vowel.to/usage/realtime-api)
-- [Voice Activity Detection](https://echoline.vowel.to/usage/vad/) (batch and streaming)
-- [Highly configurable](https://echoline.vowel.to/configuration/)
+- Deployable via Docker Compose / Docker
+- Realtime API for interactive voice conversations
+- Voice Activity Detection (batch and streaming)
+- Highly configurable via environment variables
 
 Please create an issue if you find a bug, have a question, or a feature suggestion.
 

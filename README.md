@@ -6,8 +6,6 @@
 
 `echoline` is an OpenAI API-compatible server supporting streaming transcription, translation, and speech generation. Speech-to-Text is powered by [faster-whisper](https://github.com/SYSTRAN/faster-whisper) and for Text-to-Speech [piper](https://github.com/rhasspy/piper) and [Kokoro](https://huggingface.co/hexgrad/Kokoro-82M) are used. This project aims to be Ollama, but for TTS/STT models.
 
-See the full documentation for detailed instructions: [echoline.vowel.to](https://echoline.vowel.to/)
-
 ## Features
 
 - OpenAI API compatible. All tools and SDKs that work with OpenAI's API should work with `echoline`.
@@ -19,10 +17,10 @@ See the full documentation for detailed instructions: [echoline.vowel.to](https:
 - Dynamic model loading / offloading. Just specify which model you want to use in the request and it will be loaded automatically. It will then be unloaded after a period of inactivity.
 - Text-to-Speech via `kokoro` and `piper` models.
 - GPU and CPU support.
-- [Deployable via Docker Compose / Docker](https://echoline.vowel.to/installation/)
-- [Realtime API](https://echoline.vowel.to/usage/realtime-api)
-- [Voice Activity Detection](https://echoline.vowel.to/usage/vad/) (batch and streaming)
-- [Highly configurable](https://echoline.vowel.to/configuration/)
+- Deployable via Docker Compose / Docker
+- Realtime API for interactive voice conversations
+- Voice Activity Detection (batch and streaming)
+- Highly configurable via environment variables
 
 Please create an issue if you find a bug, have a question, or a feature suggestion.
 
@@ -199,7 +197,7 @@ with Path("output.mp3").open("wb") as f:
 
 ### Realtime API (Voice Chat)
 
-Echoline implements the OpenAI Realtime API for interactive voice conversations. See the [Realtime API documentation](https://echoline.vowel.to/usage/realtime-api/) for full details.
+Echoline implements the OpenAI Realtime API for interactive voice conversations. See the `docs/usage/realtime-api.md` file for full details.
 
 Prerequisites:
 - Set `CHAT_COMPLETION_BASE_URL` to an OpenAI-compatible endpoint (e.g., Ollama, OpenAI)
@@ -252,7 +250,7 @@ async def test_vad_stream():
 
 ## Configuration
 
-Echoline is highly configurable via environment variables. See the [Configuration documentation](https://echoline.vowel.to/configuration/) for all available options.
+Echoline is highly configurable via environment variables. See the `docs/configuration.md` file for all available options.
 
 Key configuration options:
 - `ECHOLINE_API_KEY` - API key for authentication (optional)
@@ -263,14 +261,25 @@ Key configuration options:
 
 ## Documentation
 
-For comprehensive documentation, including:
+Comprehensive documentation is available in the `docs/` directory of this repository. To view the documentation locally with MkDocs:
+
+```bash
+# Install docs dependencies
+uv sync --group docs
+
+# Serve documentation locally
+mkdocs serve
+
+# Or build static site
+mkdocs build
+```
+
+Documentation includes:
 - Detailed installation guides
 - API reference
 - Configuration options
 - Integration guides (Open WebUI, etc.)
 - Troubleshooting
-
-Visit: **[echoline.vowel.to](https://echoline.vowel.to/)**
 
 ## License
 
