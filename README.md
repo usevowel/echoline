@@ -289,10 +289,10 @@ Documentation includes:
 
 ### Planned Features
 
-- **VoxStroll Real-time Transcription**: Integration of VoxStroll for improved real-time streaming transcription capabilities.
-- **Parakeet (NVIDIA)**: Adding support for NVIDIA's Parakeet model for enhanced speech-to-text accuracy and performance.
-- **Moonshine STT**: Integration of Moonshine for additional STT model options.
-- **Modern TTS Providers with Voice Cloning**: Adding support for more modern TTS providers that support voice cloning capabilities.
+- **Voxtral Real-time Transcription**: Integration of Mistral AI's Voxtral models for improved real-time streaming transcription. Voxtral Realtime supports 13 languages with ultra-low latency (sub-200ms), and Voxtral Mini Transcribe V2 offers batch transcription with speaker diarization.
+- **NVIDIA Parakeet**: Adding support for NVIDIA's Parakeet ASR models (TDT 0.6B v2/v3, RNNT 1.1B) for enhanced speech-to-text accuracy. Parakeet TDT 0.6B v2 ranks #1 on the Hugging Face ASR Leaderboard with 6.05% WER and 50x faster inference.
+- **Moonshine STT**: Integration of UsefulSensors' Moonshine model for efficient on-device ASR. Moonshine Tiny offers 5x compute reduction vs Whisper tiny-en with no WER increase, optimized for live transcription and voice commands.
+- **Modern TTS with Voice Cloning**: Adding support for modern TTS providers offering voice cloning capabilities, such as F5-TTS (zero-shot voice cloning with 10s audio, 0.15 RTF speed) and Fish Audio (2M+ voices, emotion control, real-time synthesis).
 
 See the `docs/usage/realtime-api.md` file for current limitations and next steps regarding the Realtime API.
 
