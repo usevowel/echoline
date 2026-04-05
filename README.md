@@ -281,6 +281,21 @@ Documentation includes:
 - Integration guides (Open WebUI, etc.)
 - Troubleshooting
 
+## Roadmap
+
+### Current Status
+
+- **Realtime STT API**: Currently experimental. The real-time streaming transcription API is under active development and may change.
+
+### Planned Features
+
+- **VoxStroll Real-time Transcription**: Integration of VoxStroll for improved real-time streaming transcription capabilities.
+- **Parakeet (NVIDIA)**: Adding support for NVIDIA's Parakeet model for enhanced speech-to-text accuracy and performance.
+- **Moonshine STT**: Integration of Moonshine for additional STT model options.
+- **Modern TTS Providers with Voice Cloning**: Adding support for more modern TTS providers that support voice cloning capabilities.
+
+See the `docs/usage/realtime-api.md` file for current limitations and next steps regarding the Realtime API.
+
 ## License
 
 MIT License - See [LICENSE](LICENSE) for details.
